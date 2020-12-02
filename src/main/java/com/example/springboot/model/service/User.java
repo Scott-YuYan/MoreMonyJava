@@ -14,7 +14,7 @@ import org.springframework.stereotype.Controller;
 @AllArgsConstructor
 @Controller("serviceUser")
 public class User {
-    private Long serId;
+    private Long id;
 
     public String name;
 

@@ -21,10 +21,10 @@ public class MyController {
     @Autowired @Qualifier("serviceUser")
     User user;
 
-    @RequestMapping("/getUser/{username}")
-    public User getUser(@PathVariable String username, @RequestParam String gender){
-        return new User(atomicLong.incrementAndGet(),username,gender);
-    }
+//    @RequestMapping("/getUser/{username}")
+//    public User getUser(@PathVariable String username, @RequestParam String gender){
+//        return new User(atomicLong.incrementAndGet(),username,gender);
+//    }
 
     public static void main(String[] args) {
         SpringApplication.run(MyController.class, args);

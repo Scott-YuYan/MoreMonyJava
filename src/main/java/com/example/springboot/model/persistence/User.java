@@ -17,7 +17,7 @@ import java.time.LocalDate;
 @AllArgsConstructor
 @Controller("persistenceUser")
 public class User {
-    private Long serId;
+    private Long id;
 
     public String name;
 

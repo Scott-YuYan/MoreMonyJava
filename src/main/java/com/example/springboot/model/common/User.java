@@ -13,7 +13,7 @@ import org.springframework.stereotype.Controller;
 @Controller("commonUser")
 public class User {
 
-    private Long serId;
+    private Long id;
 
     public String name;
 
