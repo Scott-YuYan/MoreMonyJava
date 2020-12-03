@@ -34,21 +34,13 @@ public class UserController {
         this.userInfoManager = userInfoManager;
         this.userInfoConverter = userInfoConverter;
     }
-    @RequestMapping( value= "/getUser/{id}", produces = "application/json;charset=UTF-8")
-    public ResponseEntity<?> getUserById(@PathVariable("id")long id){
+
+    @RequestMapping(value = "/getUser/{id}", produces = "application/json;charset=UTF-8")
+    public ResponseEntity<?> getUserById(@PathVariable("id") long id) {
         List<User> userList = new ArrayList<>();
-        try {
-            val user = userInfoManager.getUserById(id);
-            userList.add(userInfoConverter.convert(user));
-            return ResponseEntity.ok(userList);
-        }catch (UserNotFoundException e){
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ErrorResponse.builder()
-                    .statusCode(e.getStatusCode())
-                    .code("USER NOT FOUND!")
-                    .errorType(ServiceException.ErrorType.Client)
-                    .message(e.getMessage())
-                    .build());
-        }
+        val user = userInfoManager.getUserById(id);
+        userList.add(userInfoConverter.convert(user));
+        return ResponseEntity.ok(userList);
     }
 
     public static void main(String[] args) {
