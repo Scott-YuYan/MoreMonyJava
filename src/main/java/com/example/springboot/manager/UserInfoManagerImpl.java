@@ -2,6 +2,7 @@ package com.example.springboot.manager;
 
 import com.example.springboot.converter.p2c.UserInfoConverter;
 import com.example.springboot.dao.UserInfoDao;
+import com.example.springboot.exception.InvalidateParamException;
 import com.example.springboot.exception.UserNotFoundException;
 import com.example.springboot.model.common.User;
 import lombok.val;
@@ -24,6 +25,9 @@ public class UserInfoManagerImpl implements UserInfoManager {
 
     @Override
     public User getUserById(long id) {
+        if (id < 0){
+            throw new InvalidateParamException(String.format("输入编号错误%d",id));
+        }
         val user = Optional.ofNullable(userInfoDao.getUserById(id))
                 .orElseThrow(()->(new UserNotFoundException(String.format("用户编号为%d的用户没有找到！",id))));
         return userInfoConverter.convert(user);
