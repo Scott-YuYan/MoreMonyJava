@@ -12,5 +12,7 @@ public class UserNotFoundException extends ServiceException {
     public UserNotFoundException(String message) {
         super(message);
         this.setStatusCode(HttpStatus.NOT_FOUND.value());
+        this.setErrorCode("USER_NOT_FOUND!");
+        this.setErrorType(ErrorType.Client);
     }
 }
