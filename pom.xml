@@ -62,22 +62,6 @@
             <artifactId>spring-boot-starter-web</artifactId>
             <version>2.3.1.RELEASE</version>
         </dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-test</artifactId>
-            <version>2.3.4.RELEASE</version>
-            <scope>test</scope>
-            <exclusions>
-                <exclusion>
-                    <groupId>org.junit.vintage</groupId>
-                    <artifactId>junit-vintage-engine</artifactId>
-                </exclusion>
-                <exclusion>
-                    <artifactId>junit-jupiter-api</artifactId>
-                    <groupId>org.junit.jupiter</groupId>
-                </exclusion>
-            </exclusions>
-        </dependency>
         <!-- https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-configuration-processor -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -115,6 +99,32 @@
             <artifactId>mysql-connector-java</artifactId>
             <version>8.0.15</version>
         </dependency>
+
+        <!-- https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-test -->
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <version>2.3.4.RELEASE</version>
+            <scope>test</scope>
+            <exclusions>
+                <!-- 使用Junit5的话，需要将Junit4的引擎去掉-->
+                <exclusion>
+                    <groupId>org.junit.vintage</groupId>
+                    <artifactId>junit-vintage-engine</artifactId>
+                </exclusion>
+                <exclusion>
+                    <artifactId>junit-jupiter-api</artifactId>
+                    <groupId>org.junit.jupiter</groupId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+
     </dependencies>
 
     <build>

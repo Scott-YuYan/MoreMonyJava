@@ -37,6 +37,7 @@ public class UserController {
 
     @RequestMapping(value = "/getUser/{id}", produces = "application/json;charset=UTF-8")
     public ResponseEntity<?> getUserById(@PathVariable("id") long id) {
+        log.info("----------------------------");
         List<User> userList = new ArrayList<>();
         val user = userInfoManager.getUserById(id);
         userList.add(userInfoConverter.convert(user));
