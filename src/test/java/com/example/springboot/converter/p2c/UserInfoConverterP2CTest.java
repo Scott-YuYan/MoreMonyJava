@@ -4,17 +4,15 @@ import com.example.springboot.model.persistence.User;
 import lombok.val;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
 import org.mockito.junit.jupiter.MockitoExtension;
-
 
 import java.time.LocalDate;
 
 @ExtendWith(MockitoExtension.class)
 public class UserInfoConverterP2CTest {
 
-    @InjectMocks
-    private UserInfoConverter userInfoConverter;
+
+    private UserInfoConverter userInfoConverter = new UserInfoConverter();
 
     @Test
      void doForwardTest(){

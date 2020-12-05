@@ -11,8 +11,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 @ExtendWith(MockitoExtension.class)
 public class UserInfoConverterC2STest {
 
-    @InjectMocks
-    private UserInfoConverter userInfoConverter;
+    private UserInfoConverter userInfoConverter = new UserInfoConverter();
 
     @Test
     void doForwardTest(){
