@@ -3,51 +3,59 @@ package com.example.springboot.manager;
 import com.example.springboot.converter.p2c.UserInfoConverter;
 import com.example.springboot.dao.UserInfoDao;
 import com.example.springboot.exception.InvalidateParamException;
-import com.example.springboot.utils.UserInfoDaoImplTest;
+import com.example.springboot.model.persistence.User;
 import lombok.extern.slf4j.Slf4j;
-import lombok.var;
+import lombok.val;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mock;
+import org.mockito.Mockito;
+import org.mockito.MockitoAnnotations;
+
 
 @Slf4j
 public class UserInfoManagerTest {
-    private UserInfoDao userInfoDao ;
-    private UserInfoConverter userInfoConverter;
+    @Mock
+    private UserInfoDao userInfoDao;
+
+    private UserInfoManager userInfoManager;
 
     @BeforeEach
-    void setUp(){
-        userInfoDao = new UserInfoDaoImplTest();
-        userInfoConverter = new UserInfoConverter();
+    void setUp() {
+        MockitoAnnotations.initMocks(this);
+        userInfoManager = new UserInfoManagerImpl(userInfoDao,new UserInfoConverter());
     }
 
     @Test
-    void testGetUserByIdWithInvalidateId(){
-        //range
-        long testId = 1L;
+    void testGetUserByIdWithValidateIdByMockito() {
+        //ranger
+        long id = 1L;
+        String name = "wcadmin";
+        String password = "wcadmin";
+        String gender = "meal";
+        val user = User.builder()
+                .id(id)
+                .name(name)
+                .password(password)
+                .gender(gender)
+                .build();
+        Mockito.doReturn(user).when(userInfoDao).getUserById(id);
         //action
-        var result = userInfoConverter.convert(userInfoDao.getUserById(testId));
+        val result = userInfoManager.getUserById(id);
         //assert
-
-//        Junit5写法：
-//        Assertions.assertNotNull(result);
-//        Assertions.assertEquals(testId,result.getId());
-//        Assertions.assertEquals("wcadmin",result.getName());
-//        Assertions.assertEquals("wcadmin",result.getPassword());
-//        Assertions.assertEquals("meal",result.getGender());
-
-        //assertj写法
         org.assertj.core.api.Assertions.assertThat(result).isNotNull()
-                .hasFieldOrPropertyWithValue("name","wcadmin")
-                .hasFieldOrPropertyWithValue("password","wcadmin")
-                .hasFieldOrPropertyWithValue("gender","meal")
-                .hasFieldOrPropertyWithValue("id",testId);
+                .hasFieldOrPropertyWithValue("name",name)
+                .hasFieldOrPropertyWithValue("password",password)
+                .hasFieldOrPropertyWithValue("gender",gender);
+        Mockito.verify(userInfoDao).getUserById(Mockito.eq(id));
     }
-
 
     @Test
     void testGetUserByIdWithValidateId(){
-        long testId  = -1L;
-        Assertions.assertThrows(InvalidateParamException.class, () -> userInfoConverter.convert(userInfoDao.getUserById(testId)));
+        long id = -1L;
+        Mockito.doReturn(null).when(userInfoDao).getUserById(id);
+        Assertions.assertThrows(InvalidateParamException.class,()->userInfoManager.getUserById(id));
+        Mockito.verify(userInfoDao,Mockito.never()).getUserById(Mockito.eq(id));
     }
 }

@@ -1,14 +1,14 @@
 package com.example.springboot.controller;
 
-import org.apache.log4j.Logger;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
+@Slf4j
 public class HelloController {
 
-    private Logger logger = Logger.getLogger(this.getClass());
 
     @Value("${server.context-path}")
     public  String port;
@@ -18,7 +18,7 @@ public class HelloController {
 
     @RequestMapping("/test")
     public String test(){
-        logger.debug("默认端口为"+port+"默认路径为"+defaultPath);
+        log.debug("默认端口为"+port+"默认路径为"+defaultPath);
         return "默认端口为"+port+"默认路径为"+defaultPath;
     }
 
