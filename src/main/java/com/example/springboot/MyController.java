@@ -18,7 +18,8 @@ public class MyController {
 
     AtomicLong atomicLong = new AtomicLong();
 
-    @Autowired @Qualifier("serviceUser")
+    @Autowired
+    @Qualifier("serviceUser")
     User user;
 
 //    @RequestMapping("/getUser/{username}")
