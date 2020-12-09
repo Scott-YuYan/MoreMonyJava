@@ -2,11 +2,13 @@ package com.example.springboot.controller;
 
 import com.example.springboot.UserController;
 import com.example.springboot.converter.c2s.UserInfoConverter;
+import com.example.springboot.exception.GlobalExceptionHandler;
 import com.example.springboot.exception.InvalidateParamException;
+import com.example.springboot.exception.UserNotFoundException;
 import com.example.springboot.manager.UserInfoManager;
 import com.example.springboot.model.common.User;
 import lombok.val;
-import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -34,7 +36,15 @@ public class UserControllerTest {
 
     @BeforeEach
     void setUp(){
-        mockMvc = MockMvcBuilders.standaloneSetup(userController).build();
+        mockMvc = MockMvcBuilders.standaloneSetup(userController)
+                .setControllerAdvice(GlobalExceptionHandler.class)
+                .build();
+    }
+
+    @AfterEach
+    void setBack(){
+        Mockito.reset(userInfoManager);
+        Mockito.reset(userInfoConverter);
     }
 
     @Test
@@ -69,12 +79,30 @@ public class UserControllerTest {
     }
 
     @Test
-    void testGeyUserByIdWithInValidateParam() throws Exception {
+    void testGetUserByIdWithInValidateParam() throws Exception {
         //range
-        long id = -1L;
-        Mockito.doThrow(InvalidateParamException.class).when(userInfoManager).getUserById(id);
+        long id = 100L;
+
+       Mockito.doThrow(new InvalidateParamException(String.format("INVALIDATE_PARAM %d",id))).when(userInfoManager).getUserById(id);
         //act && assert
-        Assertions.assertThrows(InvalidateParamException.class,()-> userController.getUserById(id));
+        mockMvc.perform(MockMvcRequestBuilders.get("/getUser/"+id))
+                .andExpect(MockMvcResultMatchers.status().is4xxClientError())
+                .andExpect(MockMvcResultMatchers.content().contentType("application/json"))
+                .andExpect(MockMvcResultMatchers.content().string("{\"statusCode\":400,\"code\":\"INVALIDATE_PARAM\",\"errorType\":\"Client\",\"message\":\"INVALIDATE_PARAM 100\"}"));
+
+        Mockito.verify(userInfoManager).getUserById(Mockito.eq(id));
+    }
+
+    @Test
+    void testGetUserByIdWithUserNotFound() throws Exception {
+        //range
+        long id = 100L;
+        Mockito.doThrow(new UserNotFoundException(String.format("USER NOT FOUND BY %d",id))).when(userInfoManager).getUserById(id);
+        //act && assert
+        mockMvc.perform(MockMvcRequestBuilders.get("/getUser/"+id))
+                .andExpect(MockMvcResultMatchers.status().is4xxClientError())
+                .andExpect(MockMvcResultMatchers.content().contentType("application/json"))
+                .andExpect(MockMvcResultMatchers.content().string("{\"statusCode\":404,\"code\":\"USER_NOT_FOUND\",\"errorType\":\"Client\",\"message\":\"USER NOT FOUND BY 100\"}"));
 
         Mockito.verify(userInfoManager).getUserById(Mockito.eq(id));
     }
