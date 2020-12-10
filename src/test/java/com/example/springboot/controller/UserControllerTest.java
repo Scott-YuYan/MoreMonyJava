@@ -81,16 +81,16 @@ public class UserControllerTest {
     @Test
     void testGetUserByIdWithInValidateParam() throws Exception {
         //range
-        long id = 100L;
+        long id = -100L;
 
        Mockito.doThrow(new InvalidateParamException(String.format("INVALIDATE_PARAM %d",id))).when(userInfoManager).getUserById(id);
         //act && assert
         mockMvc.perform(MockMvcRequestBuilders.get("/getUser/"+id))
                 .andExpect(MockMvcResultMatchers.status().is4xxClientError())
                 .andExpect(MockMvcResultMatchers.content().contentType("application/json"))
-                .andExpect(MockMvcResultMatchers.content().string("{\"statusCode\":400,\"code\":\"INVALIDATE_PARAM\",\"errorType\":\"Client\",\"message\":\"INVALIDATE_PARAM 100\"}"));
+                .andExpect(MockMvcResultMatchers.content().string("{\"statusCode\":400,\"code\":\"INVALIDATE_PARAM\",\"errorType\":\"Client\",\"message\":\"INVALIDATE_PARAM -100\"}"));
 
-        Mockito.verify(userInfoManager).getUserById(Mockito.eq(id));
+        Mockito.verify(userInfoManager,Mockito.never()).getUserById(Mockito.eq(id));
     }
 
     @Test

@@ -4,5 +4,5 @@ import com.example.springboot.model.common.User;
 
 public interface UserInfoManager {
 
-    User getUserById(long id);
+    User getUserById(Long id);
 }
