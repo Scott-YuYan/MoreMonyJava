@@ -24,10 +24,7 @@ public class UserInfoManagerImpl implements UserInfoManager {
     }
 
     @Override
-    public User getUserById(long id) {
-        if (id < 0){
-            throw new InvalidateParamException(String.format("输入编号错误%d",id));
-        }
+    public User getUserById(Long id) {
         val user = Optional.ofNullable(userInfoDao.getUserById(id))
                 .orElseThrow(()->(new UserNotFoundException(String.format("用户编号为%d的用户没有找到！",id))));
         return userInfoConverter.convert(user);
