@@ -2,9 +2,12 @@ package com.example.springboot.converter.p2c;
 
 import com.example.springboot.model.persistence.User;
 import com.google.common.base.Converter;
+
+import lombok.EqualsAndHashCode;
 import org.springframework.stereotype.Component;
 
 @Component("p2c")
+@EqualsAndHashCode(callSuper = true)
 public class UserInfoConverter extends Converter<User, com.example.springboot.model.common.User> {
     @Override
     protected com.example.springboot.model.common.User doForward(User user) {

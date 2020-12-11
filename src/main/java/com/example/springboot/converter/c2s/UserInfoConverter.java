@@ -2,9 +2,12 @@ package com.example.springboot.converter.c2s;
 
 import com.example.springboot.model.common.User;
 import com.google.common.base.Converter;
+
+import lombok.EqualsAndHashCode;
 import org.springframework.stereotype.Component;
 
 @Component("c2s")
+@EqualsAndHashCode(callSuper = true)
 public class UserInfoConverter extends Converter<User, com.example.springboot.model.service.User> {
     @Override
     protected com.example.springboot.model.service.User doForward(User user) {
