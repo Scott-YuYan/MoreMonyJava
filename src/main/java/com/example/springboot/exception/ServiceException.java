@@ -11,7 +11,7 @@ public class ServiceException extends RuntimeException {
     public ServiceException.ErrorType errorType;
 
 
-    public enum ErrorType{
+    public enum ErrorType {
         Client,
         Server,
         Unknown

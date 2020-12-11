@@ -5,11 +5,13 @@ import com.example.springboot.dao.UserInfoDao;
 import com.example.springboot.exception.InvalidateParamException;
 import com.example.springboot.exception.UserNotFoundException;
 import com.example.springboot.model.common.User;
+
+import java.util.Optional;
+
 import lombok.val;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.util.Optional;
 
 @Component
 public class UserInfoManagerImpl implements UserInfoManager {
@@ -25,8 +27,13 @@ public class UserInfoManagerImpl implements UserInfoManager {
 
     @Override
     public User getUserById(Long id) {
+        if (id == null || id < 0) {
+            throw new InvalidateParamException("参数不合法");
+        }
         val user = Optional.ofNullable(userInfoDao.getUserById(id))
-                .orElseThrow(()->(new UserNotFoundException(String.format("用户编号为%d的用户没有找到！",id))));
+                .orElseThrow(
+                        () -> (new UserNotFoundException(String.format("用户编号为%d的用户没有找到！", id)
+                        )));
         return userInfoConverter.convert(user);
     }
 }

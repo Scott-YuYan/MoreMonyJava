@@ -11,15 +11,15 @@ public class HelloController {
 
 
     @Value("${server.context-path}")
-    public  String port;
+    public String port;
 
     @Value("${server.port}")
     public String defaultPath;
 
     @RequestMapping("/test")
-    public String test(){
-        log.debug("默认端口为"+port+"默认路径为"+defaultPath);
-        return "默认端口为"+port+"默认路径为"+defaultPath;
+    public String test() {
+        log.debug("默认端口为" + port + "默认路径为" + defaultPath);
+        return "默认端口为" + port + "默认路径为" + defaultPath;
     }
 
     @RequestMapping("/")
@@ -28,7 +28,7 @@ public class HelloController {
     }
 
     @RequestMapping("/index")
-    public String getIndex(){
+    public String getIndex() {
         return "index html";
     }
 
