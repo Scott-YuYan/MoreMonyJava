@@ -30,10 +30,10 @@ public class UserInfoManagerImpl implements UserInfoManager {
         if (id == null || id < 0) {
             throw new InvalidateParamException("参数不合法");
         }
-        val user = Optional.ofNullable(userInfoDao.getUserById(id))
+        return Optional.ofNullable(userInfoDao.getUserById(id))
+                .map(userInfoConverter::convert)
                 .orElseThrow(
                         () -> (new UserNotFoundException(String.format("用户编号为%d的用户没有找到！", id)
                         )));
-        return userInfoConverter.convert(user);
     }
 }
