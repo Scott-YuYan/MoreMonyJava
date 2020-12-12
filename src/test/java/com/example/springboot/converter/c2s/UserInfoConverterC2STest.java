@@ -2,10 +2,10 @@ package com.example.springboot.converter.c2s;
 
 
 import com.example.springboot.model.common.User;
+
 import lombok.val;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 @ExtendWith(MockitoExtension.class)
