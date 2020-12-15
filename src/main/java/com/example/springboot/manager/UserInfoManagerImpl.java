@@ -9,6 +9,9 @@ import com.example.springboot.model.common.User;
 import java.util.Optional;
 
 import lombok.val;
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.authc.UsernamePasswordToken;
+import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -35,5 +38,12 @@ public class UserInfoManagerImpl implements UserInfoManager {
                         () -> (new UserNotFoundException(String.format("用户编号为%d的用户没有找到！", id)
                         )));
         return userInfoConverter.convert(user);
+    }
+
+    @Override
+    public void login(String username, String password) {
+        Subject subject = SecurityUtils.getSubject();
+        UsernamePasswordToken usernamePasswordToken = new UsernamePasswordToken(username,password);
+        subject.login(usernamePasswordToken);
     }
 }
