@@ -234,6 +234,7 @@
                 <configuration>
                     <excludes>
                         <exclude>com/example/springboot/Application.class</exclude>
+                        <exclude>com/example/springboot/config/*</exclude>
                     </excludes>
                 </configuration>
                 <executions>

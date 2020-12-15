@@ -4,7 +4,7 @@ import lombok.Builder;
 import lombok.Data;
 
 /**
- * 自定义的错误返回体
+ * 自定义的错误返回体.
  */
 @Data
 @Builder

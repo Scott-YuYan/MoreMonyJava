@@ -7,9 +7,18 @@ public interface UserInfoManager {
     User getUserById(Long id);
 
     /**
-     * log bt username and password
+     * get user by username.
+     *
+     * @param username username
+     * @return common user
+     */
+    User getUserByUserName(String username);
+
+    /**
+     * log bt username and password.
+     *
      * @param username username
      * @param password username
      */
-    void login(String username,String password);
+    String login(String username, String password);
 }
