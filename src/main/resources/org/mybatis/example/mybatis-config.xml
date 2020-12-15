@@ -14,6 +14,7 @@
     
     <typeAliases>
         <typeAlias alias="User" type="com.example.springboot.model.persistence.User"/>
+        <typeAlias alias="String" type="java.lang.String"/>
     </typeAliases>
 
     <mappers>

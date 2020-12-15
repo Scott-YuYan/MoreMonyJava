@@ -5,9 +5,7 @@ import com.example.springboot.dao.UserInfoDao;
 import com.example.springboot.exception.InvalidateParamException;
 import com.example.springboot.exception.UserNotFoundException;
 import com.example.springboot.model.common.User;
-
 import java.util.Optional;
-
 import lombok.val;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.UsernamePasswordToken;
@@ -41,9 +39,21 @@ public class UserInfoManagerImpl implements UserInfoManager {
     }
 
     @Override
-    public void login(String username, String password) {
+    public User getUserByUserName(String username) {
+        if (username.isEmpty()) {
+            throw new InvalidateParamException("用户名不能为空");
+        }
+        val user = Optional.ofNullable(userInfoDao.getUserByUserName(username))
+                .orElseThrow(() -> (
+                        new UserNotFoundException(String.format("%s 用户没有找到", username))));
+        return userInfoConverter.convert(user);
+    }
+
+    @Override
+    public String login(String username, String password) {
         Subject subject = SecurityUtils.getSubject();
-        UsernamePasswordToken usernamePasswordToken = new UsernamePasswordToken(username,password);
+        UsernamePasswordToken usernamePasswordToken = new UsernamePasswordToken(username, password);
         subject.login(usernamePasswordToken);
+        return "success";
     }
 }

@@ -2,7 +2,6 @@ package com.example.springboot.converter.c2s;
 
 import com.example.springboot.model.common.User;
 import com.google.common.base.Converter;
-
 import lombok.EqualsAndHashCode;
 import org.springframework.stereotype.Component;
 

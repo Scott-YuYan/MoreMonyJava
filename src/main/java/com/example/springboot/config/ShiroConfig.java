@@ -1,7 +1,7 @@
 package com.example.springboot.config;
 
+import com.example.springboot.model.common.UserRealm;
 import java.util.LinkedHashMap;
-
 import org.apache.shiro.mgt.SecurityManager;
 import org.apache.shiro.spring.web.ShiroFilterFactoryBean;
 import org.apache.shiro.web.mgt.DefaultWebSecurityManager;
@@ -20,27 +20,26 @@ public class ShiroConfig {
     }
 
     @Bean
-    public SecurityManager securityManager(){
+    public SecurityManager securityManager() {
         DefaultWebSecurityManager defaultWebSecurityManager = new DefaultWebSecurityManager();
         defaultWebSecurityManager.setRealm(userRealm);
         return defaultWebSecurityManager;
     }
 
     /**
-     * Shiro Filter,实现权限相关的拦截
+     * Shiro Filter,实现权限相关的拦截.
      *
-     *
-     *
-     * @return
+     * @return 配置ShiroFilterFactoryBean
      */
     @Bean
-    public ShiroFilterFactoryBean shiroFilterFactoryBean(SecurityManager securityManager){
+    public ShiroFilterFactoryBean shiroFilterFactoryBean(SecurityManager securityManager) {
         ShiroFilterFactoryBean shiroFilterFactoryBean = new ShiroFilterFactoryBean();
         shiroFilterFactoryBean.setSecurityManager(securityManager);
-        LinkedHashMap<String,String> shiroFilterDirectoryMap = new LinkedHashMap<>();//此处需要使用LinkHashMap，用以保证加载的顺序
-//        shiroFilterDirectoryMap.put("/getUser","authc");
-        shiroFilterDirectoryMap.put("/login","anon");
-        shiroFilterDirectoryMap.put("/**","authc");
+        //此处需要使用LinkHashMap，用以保证加载的顺序
+        LinkedHashMap<String, String> shiroFilterDirectoryMap = new LinkedHashMap<>();
+        //shiroFilterDirectoryMap.put("/getUser","authc");
+        shiroFilterDirectoryMap.put("/login", "anon");
+        shiroFilterDirectoryMap.put("/**", "authc");
         shiroFilterFactoryBean.setFilterChainDefinitionMap(shiroFilterDirectoryMap);
         return shiroFilterFactoryBean;
     }

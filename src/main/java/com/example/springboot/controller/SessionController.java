@@ -1,7 +1,6 @@
 package com.example.springboot.controller;
 
 import com.example.springboot.manager.UserInfoManager;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -17,8 +16,9 @@ public class SessionController {
     }
 
     @PostMapping(value = "/login")
-    public String login(@RequestParam(value = "username")String username,@RequestParam("password")String password){
-        userInfoManager.login(username,password);
+    public String login(@RequestParam(value = "username") String username,
+                        @RequestParam("password") String password) {
+        userInfoManager.login(username, password);
         return "success";
     }
 }

@@ -2,7 +2,6 @@ package com.example.springboot.converter.p2c;
 
 import com.example.springboot.model.persistence.User;
 import com.google.common.base.Converter;
-
 import lombok.EqualsAndHashCode;
 import org.springframework.stereotype.Component;
 

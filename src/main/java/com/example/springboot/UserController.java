@@ -1,18 +1,15 @@
 package com.example.springboot;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import javax.validation.constraints.NotNull;
-
 import com.example.springboot.converter.c2s.UserInfoConverter;
 import com.example.springboot.exception.InvalidateParamException;
 import com.example.springboot.manager.UserInfoManager;
 import com.example.springboot.model.service.User;
-
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
+import java.util.ArrayList;
+import java.util.List;
+import javax.validation.constraints.NotNull;
 import lombok.extern.slf4j.Slf4j;
 import lombok.val;
 import org.springframework.beans.factory.annotation.Autowired;
