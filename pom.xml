@@ -186,7 +186,7 @@
                 <artifactId>flyway-maven-plugin</artifactId>
                 <version>7.3.0</version>
                 <configuration>
-                    <url>jdbc:mysql://192.168.104.3:3306/more_money_db_test?useUnicode=true&amp;characterEncoding=utf-8&amp;serverTimezone=Asia/Shanghai</url>
+                    <url>jdbc:mysql://192.168.19.130:3306/more_money_db_test?useUnicode=true&amp;characterEncoding=utf-8&amp;serverTimezone=Asia/Shanghai</url>
                     <user>root</user>
                     <password>password</password>
                 </configuration>
