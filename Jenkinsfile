@@ -8,10 +8,15 @@ println("${buildNumber} ${timestamp} ${projectName}");
 
 String version = "${buildNumber}-${timestamp}-${projectName}";
 
-
+/**
+Jenkinsfile Pipleline写法
+*/
 pipeline {
     agent {
         docker { image 'circleci/openjdk:8u212-jdk-stretch' }
+    }
+    triggers {
+        pollSCM('0 0 * * *')
     }
     stages {
         stage('Test') {
@@ -57,6 +62,9 @@ def deployVersion(String version) {
     sh "ssh root@47.103.56.219 'docker rm -f xdml && docker run --name xdml -d -p 8080:8080 47.103.56.219:5000/xdml-springboot:${version}'"
 }
 
+/**
+设置轮询的方式
+*/
 def setScmPollStrategyAndBuildTypes(List buildTypes) {
     def propertiesArray = [
             parameters([choice(choices: buildTypes.join('\n'), description: '', name: 'BuildType')]),
