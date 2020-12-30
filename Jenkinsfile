@@ -40,6 +40,7 @@ node {
 }
 */
 
+/**
 def normalCIBuild(String version) {
     stage 'test & package'
 
@@ -58,13 +59,19 @@ def normalCIBuild(String version) {
     deployVersion(version)
 }
 
+*/
+
+/**
 def deployVersion(String version) {
     sh "ssh root@47.103.56.219 'docker rm -f xdml && docker run --name xdml -d -p 8080:8080 47.103.56.219:5000/xdml-springboot:${version}'"
 }
+*/
 
 /**
 设置轮询的方式
 */
+
+/**
 def setScmPollStrategyAndBuildTypes(List buildTypes) {
     def propertiesArray = [
             parameters([choice(choices: buildTypes.join('\n'), description: '', name: 'BuildType')]),
@@ -95,3 +102,5 @@ def rollback() {
     println rollbackVersion
     deployVersion(rollbackVersion)
 }
+
+*/
