@@ -115,7 +115,7 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
-            <version>2.3.4.RELEASE</version>
+            <version>2.3.6.RELEASE</version>
             <scope>test</scope>
             <exclusions>
                 <!-- 使用Junit5的话，需要将Junit4的引擎去掉-->
@@ -160,7 +160,6 @@
             <artifactId>shiro-spring</artifactId>
             <version>1.4.1</version>
         </dependency>
-
     </dependencies>
 
     <build>

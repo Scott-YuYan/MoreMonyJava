@@ -14,6 +14,9 @@ import org.apache.shiro.subject.PrincipalCollection;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+/**
+ * 定义UserRealm来验证用户的身份信息
+ */
 @Component
 public class UserRealm extends AuthorizingRealm {
 

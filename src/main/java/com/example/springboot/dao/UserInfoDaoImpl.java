@@ -22,4 +22,9 @@ public class UserInfoDaoImpl implements UserInfoDao {
         return sqlSession.selectOne(
                 "org.mybatis.example.UserMapper.selectUserByUserName", userName);
     }
+
+    @Override
+    public void createNewUser(User user) {
+        sqlSession.insert("org.mybatis.example.UserMapper.createNewUser",user);
+    }
 }

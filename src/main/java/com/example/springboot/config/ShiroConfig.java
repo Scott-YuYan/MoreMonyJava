@@ -28,7 +28,10 @@ public class ShiroConfig {
 
     /**
      * Shiro Filter,实现权限相关的拦截.
-     *
+     * anno - no login can access
+     * authc - require login and then access
+     * user - remember me can access
+     * roles - get release role can access(必须有相关角色才可访问)
      * @return 配置ShiroFilterFactoryBean
      */
     @Bean
@@ -37,8 +40,10 @@ public class ShiroConfig {
         shiroFilterFactoryBean.setSecurityManager(securityManager);
         //此处需要使用LinkHashMap，用以保证加载的顺序
         LinkedHashMap<String, String> shiroFilterDirectoryMap = new LinkedHashMap<>();
-        //shiroFilterDirectoryMap.put("/getUser","authc");
+        shiroFilterDirectoryMap.put("/getUser","authc");
         shiroFilterDirectoryMap.put("/login", "anon");
+        shiroFilterDirectoryMap.put("/register", "anon");
+        shiroFilterDirectoryMap.put("/index", "anon");
         shiroFilterDirectoryMap.put("/**", "authc");
         shiroFilterFactoryBean.setFilterChainDefinitionMap(shiroFilterDirectoryMap);
         return shiroFilterFactoryBean;

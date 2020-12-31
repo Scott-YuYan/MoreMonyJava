@@ -15,9 +15,7 @@ pipeline {
     agent {
         docker { image 'circleci/openjdk:8u212-jdk-stretch' }
     }
-    triggers {
-        pollSCM('0 0 * * *')
-    }
+
     stages {
         stage('Test') {
             steps {

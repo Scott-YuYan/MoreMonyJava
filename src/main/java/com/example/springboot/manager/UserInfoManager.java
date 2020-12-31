@@ -15,10 +15,17 @@ public interface UserInfoManager {
     User getUserByUserName(String username);
 
     /**
-     * log bt username and password.
+     * log by username and password.
      *
      * @param username username
      * @param password username
      */
     String login(String username, String password);
+
+    /**
+     * registry by username and password
+     * @param username username
+     * @param password password
+     */
+    User registry(String username,String password);
 }

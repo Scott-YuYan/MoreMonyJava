@@ -5,10 +5,17 @@ import com.example.springboot.dao.UserInfoDao;
 import com.example.springboot.exception.InvalidateParamException;
 import com.example.springboot.exception.UserNotFoundException;
 import com.example.springboot.model.common.User;
+
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.Optional;
+import java.util.UUID;
+import java.util.function.Consumer;
+
 import lombok.val;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.UsernamePasswordToken;
+import org.apache.shiro.crypto.hash.Sha256Hash;
 import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -19,6 +26,7 @@ public class UserInfoManagerImpl implements UserInfoManager {
 
     private UserInfoDao userInfoDao;
     private UserInfoConverter userInfoConverter;
+    private static final int HASH_ITERATION_TIMES = 1000;//salt迭代次数
 
     @Autowired
     public UserInfoManagerImpl(UserInfoDao userInfoDao, UserInfoConverter userInfoConverter) {
@@ -55,5 +63,33 @@ public class UserInfoManagerImpl implements UserInfoManager {
         UsernamePasswordToken usernamePasswordToken = new UsernamePasswordToken(username, password);
         subject.login(usernamePasswordToken);
         return "success";
+    }
+
+    @Override
+    public User registry(String username, String password) {
+        if (username.isEmpty() || password.isEmpty()) {
+            throw new InvalidateParamException("用户名,密码不能为空");
+        }
+
+        val user = userInfoDao.getUserByUserName(username);
+        Optional.ofNullable(user)
+                .ifPresent(
+                        user1 -> {
+                            throw new InvalidateParamException(String.format("%s-用户名已经被使用", username));
+                        }
+                );
+
+        String salt = UUID.randomUUID().toString();
+        //加密算法采用Sha256
+        String encryptedPassword = new Sha256Hash(password, salt, HASH_ITERATION_TIMES).toBase64();
+        val userInfo = com.example.springboot.model.persistence.User.builder()
+                .name(username)
+                .password(encryptedPassword)
+                .salt(salt)
+                .createTime(LocalDate.now(ZoneId.of("UTC+8")))
+                .build();
+
+        userInfoDao.createNewUser(userInfo);
+        return userInfoConverter.convert(userInfo);
     }
 }

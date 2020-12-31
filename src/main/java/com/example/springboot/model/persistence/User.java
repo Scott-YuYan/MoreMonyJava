@@ -23,9 +23,13 @@ public class User {
 
     public String gender;
 
+    private String salt;
+
     private LocalDate createTime;
 
     private LocalDate modifyTime;
+
+
 
 }
 
