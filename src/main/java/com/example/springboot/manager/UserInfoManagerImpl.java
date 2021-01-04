@@ -1,5 +1,6 @@
 package com.example.springboot.manager;
 
+import com.example.springboot.config.Constant;
 import com.example.springboot.converter.p2c.UserInfoConverter;
 import com.example.springboot.dao.UserInfoDao;
 import com.example.springboot.exception.InvalidateParamException;
@@ -26,7 +27,7 @@ public class UserInfoManagerImpl implements UserInfoManager {
 
     private UserInfoDao userInfoDao;
     private UserInfoConverter userInfoConverter;
-    private static final int HASH_ITERATION_TIMES = 1000;//salt迭代次数
+
 
     @Autowired
     public UserInfoManagerImpl(UserInfoDao userInfoDao, UserInfoConverter userInfoConverter) {
@@ -81,7 +82,7 @@ public class UserInfoManagerImpl implements UserInfoManager {
 
         String salt = UUID.randomUUID().toString();
         //加密算法采用Sha256
-        String encryptedPassword = new Sha256Hash(password, salt, HASH_ITERATION_TIMES).toBase64();
+        String encryptedPassword = new Sha256Hash(password, salt, Constant.HASH_ITERATION_TIMES).toBase64();
         val userInfo = com.example.springboot.model.persistence.User.builder()
                 .name(username)
                 .password(encryptedPassword)

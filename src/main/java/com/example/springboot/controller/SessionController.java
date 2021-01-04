@@ -17,7 +17,7 @@ public class SessionController {
 
     @PostMapping(value = "/login")
     public String login(@RequestParam(value = "username") String username,
-                        @RequestParam("password") String password) {
+                        @RequestParam(value = "password") String password) {
         userInfoManager.login(username, password);
         return "success";
     }
