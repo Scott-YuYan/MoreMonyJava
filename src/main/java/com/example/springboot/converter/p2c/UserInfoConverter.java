@@ -15,6 +15,7 @@ public class UserInfoConverter extends Converter<User, com.example.springboot.mo
                 .gender(user.gender)
                 .name(user.getName())
                 .password(user.getPassword())
+                .salt(user.getSalt())
                 .build();
     }
 
@@ -25,6 +26,7 @@ public class UserInfoConverter extends Converter<User, com.example.springboot.mo
                 .gender(user.getGender())
                 .name(user.getName())
                 .password(user.getPassword())
+                .salt(user.getSalt())
                 .build();
     }
 }

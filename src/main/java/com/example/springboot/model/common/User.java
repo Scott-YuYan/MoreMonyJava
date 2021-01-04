@@ -21,5 +21,7 @@ public class User {
 
     public String gender;
 
+    private String salt;
+
 
 }

@@ -1,20 +1,20 @@
 package com.example.springboot.config;
 
 import com.example.springboot.model.common.UserRealm;
-import java.util.LinkedHashMap;
+import org.apache.shiro.authc.credential.HashedCredentialsMatcher;
 import org.apache.shiro.mgt.SecurityManager;
 import org.apache.shiro.spring.web.ShiroFilterFactoryBean;
 import org.apache.shiro.web.mgt.DefaultWebSecurityManager;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+
+import java.util.LinkedHashMap;
 
 @Configuration
 public class ShiroConfig {
 
     UserRealm userRealm;
 
-    @Autowired
     public ShiroConfig(UserRealm userRealm) {
         this.userRealm = userRealm;
     }
@@ -48,4 +48,16 @@ public class ShiroConfig {
         shiroFilterFactoryBean.setFilterChainDefinitionMap(shiroFilterDirectoryMap);
         return shiroFilterFactoryBean;
     }
+
+    @Bean
+    public HashedCredentialsMatcher matcher(){
+        HashedCredentialsMatcher matcher = new HashedCredentialsMatcher();
+        matcher.setHashAlgorithmName("SHA-256");
+        matcher.setHashIterations(Constant.HASH_ITERATION_TIMES);
+        matcher.setStoredCredentialsHexEncoded(false);
+        matcher.setHashSalted(true);
+        return matcher;
+    }
+
+
 }
