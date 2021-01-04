@@ -24,7 +24,7 @@ public class UserInfoDaoImpl implements UserInfoDao {
     }
 
     @Override
-    public void createNewUser(User user) {
-        sqlSession.insert("org.mybatis.example.UserMapper.createNewUser",user);
+    public int createNewUser(User user) {
+        return sqlSession.insert("org.mybatis.example.UserMapper.createNewUser",user);
     }
 }

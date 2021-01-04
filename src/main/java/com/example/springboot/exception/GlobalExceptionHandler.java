@@ -1,6 +1,7 @@
 package com.example.springboot.exception;
 
 import lombok.val;
+import org.apache.shiro.authc.IncorrectCredentialsException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -17,6 +18,18 @@ public class GlobalExceptionHandler {
                 .message(e.getMessage())
                 .build();
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
+    }
+
+    @ExceptionHandler(IncorrectCredentialsException.class)
+    public ResponseEntity<?> incorrectCredentialsHandlerException(IncorrectCredentialsException e){
+        val response = ErrorResponse.builder()
+                .statusCode(HttpStatus.BAD_REQUEST.value())
+                .code("INCORRECT_CREDENTIALS")
+                .errorType(ServiceException.ErrorType.Client)
+                .message(e.getMessage())
+                .build();
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
+
     }
 
 }

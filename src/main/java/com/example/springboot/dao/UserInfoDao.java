@@ -8,6 +8,6 @@ public interface UserInfoDao {
 
     User getUserByUserName(String userName);
 
-    void createNewUser(User user);
+    int createNewUser(User user);
 
 }
