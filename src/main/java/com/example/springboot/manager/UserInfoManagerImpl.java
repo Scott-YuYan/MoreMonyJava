@@ -6,13 +6,6 @@ import com.example.springboot.dao.UserInfoDao;
 import com.example.springboot.exception.InvalidateParamException;
 import com.example.springboot.exception.UserNotFoundException;
 import com.example.springboot.model.common.User;
-
-import java.time.LocalDate;
-import java.time.ZoneId;
-import java.util.Optional;
-import java.util.UUID;
-import java.util.function.Consumer;
-
 import lombok.val;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.UsernamePasswordToken;
@@ -20,6 +13,11 @@ import org.apache.shiro.crypto.hash.Sha256Hash;
 import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.util.Optional;
+import java.util.UUID;
 
 
 @Component
@@ -91,6 +89,7 @@ public class UserInfoManagerImpl implements UserInfoManager {
                 .build();
 
         userInfoDao.createNewUser(userInfo);
+
         return userInfoConverter.convert(userInfo);
     }
 }

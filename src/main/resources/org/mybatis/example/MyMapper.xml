@@ -15,7 +15,7 @@
         where name = #{username}
     </select>
 
-    <insert id="createNewUser" parameterType="User">
+    <insert id="createNewUser" parameterType="User" useGeneratedKeys="true" keyProperty="id">
         insert into user (name, password, salt, create_time) values (
                                                               #{name}, #{password}, #{salt},#{createTime}
             )
