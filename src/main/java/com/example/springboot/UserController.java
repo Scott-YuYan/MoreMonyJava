@@ -59,6 +59,7 @@ public class UserController {
     public ResponseEntity<?> registerUser(@RequestParam("username")String username,
                                           @RequestParam("password")String password){
         log.info("----------user register");
+
         val user = userInfoManager.registry(username,password);
         return ResponseEntity.ok(user);
     }
