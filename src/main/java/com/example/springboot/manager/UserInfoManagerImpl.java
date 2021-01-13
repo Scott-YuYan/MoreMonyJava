@@ -1,5 +1,8 @@
 package com.example.springboot.manager;
 
+import java.util.Optional;
+import java.util.UUID;
+
 import com.example.springboot.config.Constant;
 import com.example.springboot.converter.p2c.UserInfoConverter;
 import com.example.springboot.dao.UserInfoDao;
@@ -16,21 +19,23 @@ import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
 import java.time.ZoneId;
-import java.util.Optional;
-import java.util.UUID;
 
 
 @Component
 public class UserInfoManagerImpl implements UserInfoManager {
 
     private UserInfoDao userInfoDao;
-    private UserInfoConverter userInfoConverter;
+    private UserInfoConverter userInfoConverterP2C;
+    private com.example.springboot.converter.c2s.UserInfoConverter userInfoConverterC2S;
 
 
     @Autowired
-    public UserInfoManagerImpl(UserInfoDao userInfoDao, UserInfoConverter userInfoConverter) {
+    public UserInfoManagerImpl(UserInfoDao userInfoDao,
+                               UserInfoConverter userInfoConverterP2C,
+                               com.example.springboot.converter.c2s.UserInfoConverter userInfoConverterC2S) {
         this.userInfoDao = userInfoDao;
-        this.userInfoConverter = userInfoConverter;
+        this.userInfoConverterP2C = userInfoConverterP2C;
+        this.userInfoConverterC2S = userInfoConverterC2S;
     }
 
     @Override
@@ -39,7 +44,7 @@ public class UserInfoManagerImpl implements UserInfoManager {
             throw new InvalidateParamException("参数不合法");
         }
         return Optional.ofNullable(userInfoDao.getUserById(id))
-                .map(userInfoConverter::convert)
+                .map(userInfoConverterP2C::convert)
                 .orElseThrow(
                         () -> (new UserNotFoundException(String.format("用户编号为%d的用户没有找到！", id)
                         )));
@@ -53,7 +58,7 @@ public class UserInfoManagerImpl implements UserInfoManager {
         val user = Optional.ofNullable(userInfoDao.getUserByUserName(username))
                 .orElseThrow(() -> (
                         new UserNotFoundException(String.format("%s 用户没有找到", username))));
-        return userInfoConverter.convert(user);
+        return userInfoConverterP2C.convert(user);
     }
 
     @Override
@@ -74,22 +79,22 @@ public class UserInfoManagerImpl implements UserInfoManager {
         Optional.ofNullable(user)
                 .ifPresent(
                         user1 -> {
-                            throw new InvalidateParamException(String.format("%s-用户名已经被使用", username));
+                            throw new InvalidateParamException(
+                                    String.format("%s-用户名已经被使用", username));
                         }
                 );
 
         String salt = UUID.randomUUID().toString();
         //加密算法采用Sha256
-        String encryptedPassword = new Sha256Hash(password, salt, Constant.HASH_ITERATION_TIMES).toBase64();
+        String encryptedPassword = new Sha256Hash(password, salt,
+                Constant.HASH_ITERATION_TIMES).toBase64();
         val userInfo = com.example.springboot.model.persistence.User.builder()
                 .name(username)
-                .password(encryptedPassword)
-                .salt(salt)
                 .createTime(LocalDate.now(ZoneId.of("UTC+8")))
                 .build();
 
         int userId = userInfoDao.createNewUser(userInfo);
         userInfo.setId((long) userId);
-        return userInfoConverter.convert(userInfo);
+        return userInfoConverterP2C.convert(userInfo);
     }
 }

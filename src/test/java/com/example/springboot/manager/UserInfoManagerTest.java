@@ -30,7 +30,10 @@ public class UserInfoManagerTest {
     @BeforeEach
     void setUp() {
         MockitoAnnotations.initMocks(this);
-        userInfoManager = new UserInfoManagerImpl(userInfoDao, new UserInfoConverter());
+        userInfoManager = new UserInfoManagerImpl(
+                userInfoDao,
+                new UserInfoConverter(),
+                new com.example.springboot.converter.c2s.UserInfoConverter());
     }
 
     @Test

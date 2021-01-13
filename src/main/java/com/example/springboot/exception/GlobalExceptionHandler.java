@@ -21,7 +21,7 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler(IncorrectCredentialsException.class)
-    public ResponseEntity<?> incorrectCredentialsHandlerException(IncorrectCredentialsException e){
+    public ResponseEntity<?> incorrectCredentialsHandlerException(IncorrectCredentialsException e) {
         val response = ErrorResponse.builder()
                 .statusCode(HttpStatus.BAD_REQUEST.value())
                 .code("INCORRECT_CREDENTIALS")
