@@ -24,8 +24,9 @@ public interface UserInfoManager {
 
     /**
      * registry by username and password
+     *
      * @param username username
      * @param password password
      */
-    User registry(String username,String password);
+    User registry(String username, String password);
 }

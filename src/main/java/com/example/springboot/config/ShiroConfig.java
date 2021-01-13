@@ -32,6 +32,7 @@ public class ShiroConfig {
      * authc - require login and then access
      * user - remember me can access
      * roles - get release role can access(必须有相关角色才可访问)
+     *
      * @return 配置ShiroFilterFactoryBean
      */
     @Bean
@@ -40,7 +41,7 @@ public class ShiroConfig {
         shiroFilterFactoryBean.setSecurityManager(securityManager);
         //此处需要使用LinkHashMap，用以保证加载的顺序
         LinkedHashMap<String, String> shiroFilterDirectoryMap = new LinkedHashMap<>();
-        shiroFilterDirectoryMap.put("/getUser","authc");
+        shiroFilterDirectoryMap.put("/getUser", "authc");
         shiroFilterDirectoryMap.put("/login", "anon");
         shiroFilterDirectoryMap.put("/register", "anon");
         shiroFilterDirectoryMap.put("/index", "anon");
@@ -50,7 +51,7 @@ public class ShiroConfig {
     }
 
     @Bean
-    public HashedCredentialsMatcher matcher(){
+    public HashedCredentialsMatcher matcher() {
         HashedCredentialsMatcher matcher = new HashedCredentialsMatcher();
         matcher.setHashAlgorithmName("SHA-256");
         matcher.setHashIterations(Constant.HASH_ITERATION_TIMES);
