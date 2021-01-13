@@ -9,9 +9,15 @@ import lombok.val;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.function.Executable;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
+import org.mockito.Spy;
+import sun.rmi.server.InactiveGroupException;
+
+import java.time.LocalDate;
+import java.time.ZoneId;
 
 
 @Slf4j
@@ -24,7 +30,7 @@ public class UserInfoManagerTest {
     @BeforeEach
     void setUp() {
         MockitoAnnotations.initMocks(this);
-        userInfoManager = new UserInfoManagerImpl(userInfoDao,new UserInfoConverter());
+        userInfoManager = new UserInfoManagerImpl(userInfoDao, new UserInfoConverter());
     }
 
     @Test
@@ -45,17 +51,42 @@ public class UserInfoManagerTest {
         val result = userInfoManager.getUserById(id);
         //assert
         org.assertj.core.api.Assertions.assertThat(result).isNotNull()
-                .hasFieldOrPropertyWithValue("name",name)
-                .hasFieldOrPropertyWithValue("password",password)
-                .hasFieldOrPropertyWithValue("gender",gender);
+                .hasFieldOrPropertyWithValue("name", name)
+                .hasFieldOrPropertyWithValue("password", password)
+                .hasFieldOrPropertyWithValue("gender", gender);
         Mockito.verify(userInfoDao).getUserById(Mockito.eq(id));
     }
 
     @Test
-    void testGetUserByIdWithValidateId(){
+    void testGetUserByIdWithValidateId() {
         long id = -1L;
         Mockito.doReturn(null).when(userInfoDao).getUserById(id);
-        Assertions.assertThrows(InvalidateParamException.class,()->userInfoManager.getUserById(id));
-        Mockito.verify(userInfoDao,Mockito.never()).getUserById(Mockito.eq(id));
+        Assertions.assertThrows(InvalidateParamException.class, () -> userInfoManager.getUserById(id));
+        Mockito.verify(userInfoDao, Mockito.never()).getUserById(Mockito.eq(id));
     }
+
+    @Test
+    void testRegisterWithNullParam() {
+        String username = "";
+        String password = "";
+
+        Assertions.assertThrows(InvalidateParamException.class,
+                () -> userInfoManager.registry(username, password));
+
+        val userInfo = com.example.springboot.model.persistence.User.builder()
+                .name(username)
+                .password(password)
+                .build();
+
+        Mockito.verify(userInfoDao, Mockito.never()).createNewUser(userInfo);
+    }
+
+    @Test
+    void testRegisterWithExistUsername() {
+        String username = "admin";
+        String password = "password";
+        Assertions.assertThrows(InactiveGroupException.class,
+                () -> userInfoManager.registry(username, password));
+    }
+
 }

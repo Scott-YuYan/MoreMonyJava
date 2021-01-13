@@ -7,16 +7,16 @@ import com.example.springboot.model.service.User;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import javax.validation.constraints.NotNull;
 import lombok.extern.slf4j.Slf4j;
 import lombok.val;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import javax.validation.constraints.NotNull;
+import java.util.ArrayList;
+import java.util.List;
 
 
 @RestController
@@ -55,12 +55,11 @@ public class UserController {
         return ResponseEntity.ok(userList);
     }
 
-    @PostMapping("/register")
-    public ResponseEntity<?> registerUser(@RequestParam("username")String username,
-                                          @RequestParam("password")String password){
+    @PostMapping(value = "/register",consumes = "application/json",produces = "application/json")
+    public ResponseEntity<?> registerUser(
+            @RequestBody com.example.springboot.model.common.User userService){
         log.info("----------user register");
-
-        val user = userInfoManager.registry(username,password);
+        val user = userInfoManager.registry(userService.getName(),userService.getPassword());
         return ResponseEntity.ok(user);
     }
 }

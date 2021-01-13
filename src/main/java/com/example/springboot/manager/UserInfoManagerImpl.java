@@ -67,7 +67,7 @@ public class UserInfoManagerImpl implements UserInfoManager {
     @Override
     public User registry(String username, String password) {
         if (username.isEmpty() || password.isEmpty()) {
-            throw new InvalidateParamException("用户名,密码不能为空");
+            throw new InvalidateParamException("username,password cannot be null");
         }
 
         val user = userInfoDao.getUserByUserName(username);
@@ -88,8 +88,8 @@ public class UserInfoManagerImpl implements UserInfoManager {
                 .createTime(LocalDate.now(ZoneId.of("UTC+8")))
                 .build();
 
-        userInfoDao.createNewUser(userInfo);
-
+        int userId = userInfoDao.createNewUser(userInfo);
+        userInfo.setId((long) userId);
         return userInfoConverter.convert(userInfo);
     }
 }
