@@ -41,11 +41,11 @@ public class ShiroConfig {
         shiroFilterFactoryBean.setSecurityManager(securityManager);
         //此处需要使用LinkHashMap，用以保证加载的顺序
         LinkedHashMap<String, String> shiroFilterDirectoryMap = new LinkedHashMap<>();
-        shiroFilterDirectoryMap.put("/getUser", "authc");
+        shiroFilterDirectoryMap.put("/getUser", "anon");
         shiroFilterDirectoryMap.put("/login", "anon");
         shiroFilterDirectoryMap.put("/register", "anon");
         shiroFilterDirectoryMap.put("/index", "anon");
-        shiroFilterDirectoryMap.put("/**", "authc");
+        shiroFilterDirectoryMap.put("/**", "anon");
         shiroFilterFactoryBean.setFilterChainDefinitionMap(shiroFilterDirectoryMap);
         return shiroFilterFactoryBean;
     }

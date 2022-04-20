@@ -8,6 +8,7 @@ import com.example.springboot.converter.p2c.UserInfoConverter;
 import com.example.springboot.dao.UserInfoDao;
 import com.example.springboot.exception.InvalidateParamException;
 import com.example.springboot.exception.UserNotFoundException;
+import com.example.springboot.external.AddressClientService;
 import com.example.springboot.model.common.User;
 import lombok.val;
 import org.apache.shiro.SecurityUtils;
@@ -24,9 +25,9 @@ import java.time.ZoneId;
 @Component
 public class UserInfoManagerImpl implements UserInfoManager {
 
-    private UserInfoDao userInfoDao;
-    private UserInfoConverter userInfoConverterP2C;
-    private com.example.springboot.converter.c2s.UserInfoConverter userInfoConverterC2S;
+    private final UserInfoDao userInfoDao;
+    private final UserInfoConverter userInfoConverterP2C;
+    private final com.example.springboot.converter.c2s.UserInfoConverter userInfoConverterC2S;
 
 
     @Autowired
@@ -55,10 +56,14 @@ public class UserInfoManagerImpl implements UserInfoManager {
         if (username.isEmpty()) {
             throw new InvalidateParamException("用户名不能为空");
         }
+        // 类型推断
         val user = Optional.ofNullable(userInfoDao.getUserByUserName(username))
                 .orElseThrow(() -> (
                         new UserNotFoundException(String.format("%s 用户没有找到", username))));
+//        反转的话，用reverse().convert()
+//        userInfoConverterP2C.reverse().convert(user);
         return userInfoConverterP2C.convert(user);
+
     }
 
     @Override

@@ -2,7 +2,7 @@ package com.example.springboot.manager;
 
 import com.example.springboot.model.common.User;
 
-public interface UserInfoManager {
+public interface UserInfoManager{
 
     User getUserById(Long id);
 
@@ -29,4 +29,5 @@ public interface UserInfoManager {
      * @param password password
      */
     User registry(String username, String password);
+
 }

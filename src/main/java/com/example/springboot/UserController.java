@@ -27,9 +27,11 @@ import java.util.List;
 @RestController
 @Slf4j
 public class UserController {
-    private UserInfoManager userInfoManager;
+    
+    private final UserInfoManager userInfoManager;
+
     @Qualifier("c2s")
-    private UserInfoConverter userInfoConverter;
+    private final UserInfoConverter userInfoConverter;
 
     private static final int OK = 200;
     private static final int NOT_FOUND = 404;

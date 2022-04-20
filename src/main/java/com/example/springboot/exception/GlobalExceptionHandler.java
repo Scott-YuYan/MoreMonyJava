@@ -4,6 +4,7 @@ import lombok.val;
 import org.apache.shiro.authc.IncorrectCredentialsException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
@@ -29,7 +30,17 @@ public class GlobalExceptionHandler {
                 .message(e.getMessage())
                 .build();
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
+    }
 
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    public ResponseEntity<?> methodArgumentNotValidHandlerException(MethodArgumentNotValidException e){
+        val response = ErrorResponse.builder()
+                .statusCode(HttpStatus.BAD_REQUEST.value())
+                .code("INCORRECT_CREDENTIALS")
+                .errorType(ServiceException.ErrorType.Client)
+                .message(e.getMessage())
+                .build();
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
     }
 
 }
